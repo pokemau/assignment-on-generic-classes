@@ -23,59 +23,41 @@ The following are its methods:
  */
 public class MyMap<K, V> {
 
-    ArrayList<Node<K, V>> vals;
+    ArrayList<K> keys;
+    ArrayList<V> values;
 
     public MyMap() {
-        vals = new ArrayList<>();
+        keys = new ArrayList<>();
+        values = new ArrayList<>();
     }
 
 
     public void put(K key, V value) {
-        int i = getIndex(key);
+        int i = keys.indexOf(key);
         if (i >= 0) {
-            vals.get(i).setValue(value);
+            values.set(i, value);
         } else {
-            vals.add(new Node<>(key, value));
+            keys.add(key);
+            values.add(value);
         }
     }
 
     public V get(K key) {
-        int i = getIndex(key);
-        return i >= 0 ? vals.get(i).value : null;
+        int i = keys.indexOf(key);
+        return i >= 0 ? values.get(i) : null;
     }
 
     public V remove(K key) {
-        int i = getIndex(key);
+        int i = keys.indexOf(key);
         if (i >= 0) {
-            return vals.remove(i).value;
+            keys.remove(i);
+            return values.remove(i);
         } else return null;
     }
 
-    private int getIndex(K key) {
-        for (int i = 0; i < vals.size(); i++) {
-            Node<K, V> n = vals.get(i);
-            if (n.key.equals(key)) { return i; }
-
-        }
-        return -1;
-    }
-
-
-    private static class Node<K, V> {
-        K key;
-        V value;
-        public Node(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-        public void setValue(V value) {
-            this.value = value;
-        }
-    }
-
     public void printMap() {
-        for (Node<K, V> n : vals) {
-            System.out.println(n.key + ":" + n.value);
+        for (int i = 0; i < values.size(); i++) {
+            System.out.println(keys.get(i) + ":" + values.get(i));
         }
         System.out.println();
     }
